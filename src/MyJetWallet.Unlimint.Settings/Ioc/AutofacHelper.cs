@@ -11,7 +11,7 @@ namespace MyJetWallet.Unlimint.Settings.Ioc
 {
     public static class AutofacHelper
     {
-        public static void RegisterCircleSettingsReader(this ContainerBuilder builder, IMyNoSqlSubscriber myNoSqlClient)
+        public static void RegisterUnlimintSettingsReader(this ContainerBuilder builder, IMyNoSqlSubscriber myNoSqlClient)
         {
             builder
                 .RegisterMyNoSqlReader<UnlimintAssetEntity>(myNoSqlClient, UnlimintAssetEntity.TableName);
@@ -22,7 +22,7 @@ namespace MyJetWallet.Unlimint.Settings.Ioc
                 .SingleInstance();
         }
 
-        public static void RegisterCircleSettingsWriter(this ContainerBuilder builder, Func<string> myNoSqlWriterUrl)
+        public static void RegisterUnlimintSettingsWriter(this ContainerBuilder builder, Func<string> myNoSqlWriterUrl)
         {
             builder
                 .RegisterMyNoSqlWriter<UnlimintAssetEntity>(myNoSqlWriterUrl, UnlimintAssetEntity.TableName);
