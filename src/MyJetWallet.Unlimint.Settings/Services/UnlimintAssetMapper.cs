@@ -17,10 +17,10 @@ namespace MyJetWallet.Unlimint.Settings.Services
             _unlimintCoins = unlimintCoins;
         }
 
-        public UnlimintAssetEntity GetUnlimintByPaymentAsset(string brokerId, string paymentSymbol)
+        public UnlimintAssetEntity GetUnlimintBySettlement(string brokerId, string settlementAsset)
         {
             var assetEntities = _unlimintCoins.Get(UnlimintAssetEntity.GeneratePartitionKey(brokerId))
-                .Where(e => e.PaymentAsset == paymentSymbol).ToList();
+                .Where(e => e.PaymentAsset == settlementAsset).ToList();
 
             if (!assetEntities.Any())
             {
@@ -30,7 +30,7 @@ namespace MyJetWallet.Unlimint.Settings.Services
             if (assetEntities.Count > 1)
             {
                 throw new Exception(
-                    $"Cannot map unlimint asset {assetEntities} to Asset. Table: {UnlimintAssetEntity.TableName}. Found many assets: {JsonConvert.SerializeObject(paymentSymbol)}");
+                    $"Cannot map unlimint asset {assetEntities} to Asset. Table: {UnlimintAssetEntity.TableName}. Found many assets: {JsonConvert.SerializeObject(settlementAsset)}");
             }
 
             var entity = assetEntities.First();
@@ -38,9 +38,9 @@ namespace MyJetWallet.Unlimint.Settings.Services
             return entity;
         }
 
-        public UnlimintAssetEntity GetUnlimintBySettlement(string brokerId, string settlementAsset)
+        public UnlimintAssetEntity GetUnlimintByPaymentAsset(string brokerId, string paymentSymbol)
         {
-            return _unlimintCoins.Get(UnlimintAssetEntity.GeneratePartitionKey(brokerId), UnlimintAssetEntity.GenerateRowKey(settlementAsset));
+            return _unlimintCoins.Get(UnlimintAssetEntity.GeneratePartitionKey(brokerId), UnlimintAssetEntity.GenerateRowKey(paymentSymbol));
         }
     }
 }
