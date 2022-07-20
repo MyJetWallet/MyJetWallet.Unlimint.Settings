@@ -10,20 +10,18 @@ namespace MyJetWallet.Unlimint.Settings.NoSql
         public static string GenerateRowKey(string asset) => asset;
 
         public string BrokerId { get; set; }
-        public string UnlimintAsset { get; set; }
-        public string AssetSymbol { get; set; }
-        public string AssetTokenSymbol { get; set; }
+        public string PaymentAsset { get; set; }
+        public string SettlementAsset { get; set; }
 
         public static UnlimintAssetEntity Create(UnlimintAssetEntity circleAssetEntity)
         {
             var entity = new UnlimintAssetEntity()
             {
                 PartitionKey = GeneratePartitionKey(circleAssetEntity.BrokerId),
-                RowKey = GenerateRowKey(circleAssetEntity.UnlimintAsset),
+                RowKey = GenerateRowKey(circleAssetEntity.PaymentAsset),
                 BrokerId = circleAssetEntity.BrokerId,
-                UnlimintAsset = circleAssetEntity.UnlimintAsset,
-                AssetSymbol = circleAssetEntity.AssetSymbol,
-                AssetTokenSymbol = circleAssetEntity.AssetTokenSymbol,
+                PaymentAsset = circleAssetEntity.PaymentAsset,
+                SettlementAsset = circleAssetEntity.SettlementAsset,
             };
 
             return entity;

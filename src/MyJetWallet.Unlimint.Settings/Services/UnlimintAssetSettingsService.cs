@@ -19,12 +19,10 @@ namespace MyJetWallet.Unlimint.Settings.Services
         {
             if (string.IsNullOrEmpty(entity.BrokerId))
                 throw new Exception("Cannot create unlimint asset. BrokerId cannot be empty");
-            if (string.IsNullOrEmpty(entity.AssetSymbol))
-                throw new Exception("Cannot create unlimint asset. AssetSymbol cannot be empty");
-            if (string.IsNullOrEmpty(entity.AssetTokenSymbol))
-                throw new Exception("Cannot create unlimint asset. AssetTokenSymbol cannot be empty");
-            if (string.IsNullOrEmpty(entity.UnlimintAsset))
-                throw new Exception("Cannot create unlimint asset. unlimintAsset cannot be empty");
+            if (string.IsNullOrEmpty(entity.SettlementAsset))
+                throw new Exception("Cannot create unlimint asset. SettlementAsset cannot be empty");
+            if (string.IsNullOrEmpty(entity.PaymentAsset))
+                throw new Exception("Cannot create unlimint asset. PaymentAsset cannot be empty");
 
             var newEntity = UnlimintAssetEntity.Create(entity);
 
@@ -40,12 +38,10 @@ namespace MyJetWallet.Unlimint.Settings.Services
         {
             if (string.IsNullOrEmpty(entity.BrokerId))
                 throw new Exception("Cannot update unlimint asset. BrokerId cannot be empty");
-            if (string.IsNullOrEmpty(entity.AssetSymbol))
-                throw new Exception("Cannot update unlimint asset. AssetSymbol cannot be empty");
-            if (string.IsNullOrEmpty(entity.UnlimintAsset))
-                throw new Exception("Cannot update unlimint asset. unlimintAsset cannot be empty");
-            if (string.IsNullOrEmpty(entity.AssetTokenSymbol))
-                throw new Exception("Cannot create unlimint asset. AssetTokenSymbol cannot be empty");
+            if (string.IsNullOrEmpty(entity.PaymentAsset))
+                throw new Exception("Cannot update unlimint asset. PaymentAsset cannot be empty");
+            if (string.IsNullOrEmpty(entity.SettlementAsset))
+                throw new Exception("Cannot create unlimint asset. SettlementAsset cannot be empty");
 
             var newEntity = UnlimintAssetEntity.Create(entity);
 
@@ -61,13 +57,11 @@ namespace MyJetWallet.Unlimint.Settings.Services
         {
             if (string.IsNullOrEmpty(entity.BrokerId))
                 throw new Exception("Cannot delete unlimint asset. BrokerId cannot be empty");
-            if (string.IsNullOrEmpty(entity.AssetSymbol))
-                throw new Exception("Cannot delete unlimint asset. AssetSymbol cannot be empty");
-            if (string.IsNullOrEmpty(entity.AssetTokenSymbol))
-                throw new Exception("Cannot delete unlimint asset. AssetTokenSymbol cannot be empty");
+            if (string.IsNullOrEmpty(entity.PaymentAsset))
+                throw new Exception("Cannot delete unlimint asset. PaymentAsset cannot be empty");
 
             var existingEntity = await _writer.GetAsync(UnlimintAssetEntity.GeneratePartitionKey(entity.BrokerId),
-                UnlimintAssetEntity.GenerateRowKey(entity.UnlimintAsset));
+                UnlimintAssetEntity.GenerateRowKey(entity.PaymentAsset));
 
             if (existingEntity != null)
             {

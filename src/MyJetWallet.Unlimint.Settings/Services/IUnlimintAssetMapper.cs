@@ -4,8 +4,7 @@ namespace MyJetWallet.Unlimint.Settings.Services
 {
     public interface IUnlimintAssetMapper
     {
-        UnlimintAssetEntity AssetToUnlimint(string brokerId, string assetSymbol);
-        UnlimintAssetEntity UnlimintToAsset(string brokerId, string unlimintAsset);
-        UnlimintAssetEntity AssetToUnlimintToken(string brokerId, string assetTokenSymbol);
+        UnlimintAssetEntity GetUnlimintByPaymentAsset(string brokerId, string assetSymbol);
+        UnlimintAssetEntity GetUnlimintBySettlement(string brokerId, string assetTokenSymbol);
     }
 }

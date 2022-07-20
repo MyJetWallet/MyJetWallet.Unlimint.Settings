@@ -17,9 +17,10 @@ namespace MyJetWallet.Unlimint.Settings.Services
             _unlimintCoins = unlimintCoins;
         }
 
-        public UnlimintAssetEntity AssetToUnlimint(string brokerId, string assetSymbol)
+        public UnlimintAssetEntity GetUnlimintByPaymentAsset(string brokerId, string paymentSymbol)
         {
-            var assetEntities = _unlimintCoins.Get(UnlimintAssetEntity.GeneratePartitionKey(brokerId)).Where(e => e.AssetSymbol == assetSymbol).ToList();
+            var assetEntities = _unlimintCoins.Get(UnlimintAssetEntity.GeneratePartitionKey(brokerId))
+                .Where(e => e.PaymentAsset == paymentSymbol).ToList();
 
             if (!assetEntities.Any())
             {
@@ -29,7 +30,7 @@ namespace MyJetWallet.Unlimint.Settings.Services
             if (assetEntities.Count > 1)
             {
                 throw new Exception(
-                    $"Cannot map unlimint asset {assetEntities} to Asset. Table: {UnlimintAssetEntity.TableName}. Found many assets: {JsonConvert.SerializeObject(assetSymbol)}");
+                    $"Cannot map unlimint asset {assetEntities} to Asset. Table: {UnlimintAssetEntity.TableName}. Found many assets: {JsonConvert.SerializeObject(paymentSymbol)}");
             }
 
             var entity = assetEntities.First();
@@ -37,29 +38,9 @@ namespace MyJetWallet.Unlimint.Settings.Services
             return entity;
         }
 
-        public UnlimintAssetEntity UnlimintToAsset(string brokerId, string assetTokenSymbol)
+        public UnlimintAssetEntity GetUnlimintBySettlement(string brokerId, string settlementAsset)
         {
-            var assetEntities = _unlimintCoins.Get(UnlimintAssetEntity.GeneratePartitionKey(brokerId)).Where(e => e.AssetTokenSymbol == assetTokenSymbol).ToList();
-
-            if (!assetEntities.Any())
-            {
-                return null;
-            }
-
-            if (assetEntities.Count > 1)
-            {
-                throw new Exception(
-                    $"Cannot map unlimint asset {assetEntities} to Asset. Table: {UnlimintAssetEntity.TableName}. Found many assets: {JsonConvert.SerializeObject(assetTokenSymbol)}");
-            }
-
-            var entity = assetEntities.First();
-
-            return entity;
-        }
-
-        public UnlimintAssetEntity AssetToUnlimintToken(string brokerId, string unlimintAsset)
-        {
-            return _unlimintCoins.Get(UnlimintAssetEntity.GeneratePartitionKey(brokerId), UnlimintAssetEntity.GenerateRowKey(unlimintAsset));
+            return _unlimintCoins.Get(UnlimintAssetEntity.GeneratePartitionKey(brokerId), UnlimintAssetEntity.GenerateRowKey(settlementAsset));
         }
     }
 }
